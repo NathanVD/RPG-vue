@@ -83,8 +83,8 @@ export default [
   {
     name: "Sparring Partner",
     class: "Monster",
-    hp: 999999,
-    hpMax: 999999,
+    hp: 9999,
+    hpMax: 9999,
     atk: 1,
     speed: 0,
     sprite: require("@/assets/img/monstres/Satrage.gif")

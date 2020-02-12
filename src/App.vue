@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <FightScreen
+    <GameScreen
       :stage="stage"
       :hero="hero"
       :monster="monster"
@@ -10,20 +10,20 @@
 </template>
 
 <script>
-import FightScreen from "./components/FightScreen.vue";
-import Heroes from "./assets/pools/heroes.js";
-import Monsters from "./assets/pools/monsters.js";
-import Stages from "./assets/pools/stages.js";
+import GameScreen from "./components/GameScreen.vue";
+import Heroes from "./assets/pools/heroes";
+import Monsters from "./assets/pools/monsters";
+import Stages from "./assets/pools/stages";
 import Items from "./assets/pools/items";
 
 export default {
   components: {
-    FightScreen
+    GameScreen
   },
   data() {
     return {
-      selectedStage: 4,
-      selectedHero: 4,
+      selectedStage: 0,
+      selectedHero: 3,
       selectedMonster: 9
     };
   },
@@ -38,7 +38,7 @@ export default {
       return Stages[this.selectedStage];
     },
     attackType() {
-      if (this.selectedHero < 3) {
+      if (this.hero < 3) {
         return "jump";
       } else {
         return "run";
@@ -47,9 +47,10 @@ export default {
   },
   methods: {
     mkInventory() {
-      for (let i = 0; i < 3; i++) {
-        this.hero.inventory.push(Items[parseInt(Math.random() * Items.length)]);
-      }
+      // for (let i = 0; i < 3; i++) {
+      //   this.hero.inventory.push(Items[parseInt(Math.random() * Items.length)]);
+      // }
+      this.hero.inventory = [Items[0], Items[1], Items[2]]; //Testing
     }
   },
   created: function() {
@@ -60,12 +61,10 @@ export default {
 
 <style lang="sass">
 @import "../node_modules/bootstrap/scss/bootstrap.scss"
+@import "./assets/font/stylesheet.css"
+
 body
   background: #979797
-#app
-  margin: 5px auto
-  background-color: darkblue
-  border: 3px solid white
-  height: 500px
-  width: 1067px
+  font-family: 'golden_sun', Verdana, Arial, Helvetica, sans-serif
+  font-size: 0.8rem
 </style>

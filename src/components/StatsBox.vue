@@ -54,7 +54,7 @@ export default {
       margin-left: auto
       top: 5%
       right: 0
-      left: 10%
+      left: 20%
   progress[value]
     -webkit-appearance: none
   .healthBar[value]::-webkit-progress-value

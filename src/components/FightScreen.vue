@@ -33,26 +33,47 @@
         @useItem="useItem"
       />
 
-      <div id="actions">
-        <button value="1" class="m-1" @click="attack" :disabled="disabled">
-          Attaque
-        </button>
-        <button
+      <div id="actions" class="p-1">
+        <input
+          type="image"
+          :src="attackIcon"
+          value="1"
+          title="Attaque"
+          class="actionIcon"
+          @click="attack"
+          alt="attack"
+          :disabled="disabled"
+        />
+        <input
+          type="image"
+          :src="magicIcon"
           value="2"
-          class="m-1"
+          title="Magie"
+          class="actionIcon"
           @click="toggleMenu(2)"
+          alt="magic"
           :disabled="disabled"
-        >
-          Magie
-        </button>
-        <button
+        />
+        <input
+          type="image"
+          :src="itemIcon"
           value="3"
-          class="m-1"
+          title="Objets"
+          class="actionIcon"
           @click="toggleMenu(3)"
+          alt="items"
           :disabled="disabled"
-        >
-          Objets
-        </button>
+        />
+        <input
+          type="image"
+          :src="devIcon"
+          value="4"
+          title="Dev"
+          class="actionIcon"
+          @click="devHeal"
+          alt="dev"
+          :disabled="disabled"
+        />
       </div>
     </div>
   </div>
@@ -61,12 +82,13 @@
 <script>
 import StatsBox from "./StatsBox.vue";
 import Menu from "./Menu.vue";
+import { eventTrain } from "../main";
 //import Anim from "./Spells.vue";
 
 export default {
   props: {
     stage: {
-      type: Number,
+      type: String,
       required: true
     },
     hero: {
@@ -75,10 +97,6 @@ export default {
     },
     monster: {
       type: Object,
-      required: true
-    },
-    stage: {
-      type: String,
       required: true
     },
     attackType: {
@@ -107,7 +125,11 @@ export default {
       spriteSelect: "Passif", // "Attack1", "Attack2", "Cast1", "Cast2", "Hit", "Downed"
       menuActive: 0,
       spellcast: { target: 0, spell: "" },
-      frame: require("@/assets/img/Psy_Seal.gif") //Placeholder
+      frame: require("@/assets/img/Psy_Seal.gif"), //Placeholder
+      attackIcon: require("@/assets/img/Attack.gif"),
+      magicIcon: require("@/assets/img/Psynergy.gif"),
+      itemIcon: require("@/assets/img/Item.gif"),
+      devIcon: require("@/assets/img/Lucky_Medals.gif")
     };
   },
   computed: {
@@ -140,6 +162,7 @@ export default {
       this.disabled = !this.disabled;
     },
     castSpell(spell) {
+      eventTrain.$emit("logIt", `${this.hero.name} lance ${spell.name} !!!`);
       this.hero.mp -= spell.cost;
       this.spriteSelect = "Cast1";
       this.spellcast.spell = spell.name;
@@ -148,6 +171,7 @@ export default {
           this.spellcast.target = 2;
           this.spriteSelect = "Cast2";
           await spell.anim(this.hero);
+          spell.log(this.hero.name);
           if (this.hero.hp + spell.power <= this.hero.hpMax) {
             this.hero.hp += spell.power;
           } else {
@@ -156,6 +180,13 @@ export default {
         } else {
           this.spellcast.target = 1;
           this.spriteSelect = "Cast2";
+          setTimeout(() => {
+            this.monsterState = "hit";
+            setTimeout(() => {
+              this.monsterState = "neutral";
+            }, 200);
+          }, 600);
+          spell.log(this.monster.name);
           await spell.anim(this.monster);
           this.monster.hp -= spell.power;
         }
@@ -165,22 +196,37 @@ export default {
       }, 200);
     },
     useItem(item) {
+      eventTrain.$emit(
+        "logIt",
+        `${this.hero.name} utilise un(e) ${item.name}.`
+      );
       this.spriteSelect = "Cast1";
       this.hero.inventory.splice(this.hero.inventory.indexOf(item), 1);
       setTimeout(() => {
         this.spriteSelect = "Cast2";
         item.use(this.hero);
-        setTimeout(() => {
+        setTimeout(async () => {
           this.spriteSelect = "Passif";
+          this.monster.hp > 0
+            ? await this.monsterAttack()
+            : this.monsterDeath();
         }, 1000);
       }, 200);
     },
     attack() {
+      eventTrain.$emit("logIt", `${this.hero.name} attaque !`);
       this.disabled = true;
       this.heroAttacking = true;
       this.spriteSelect = "Attack1";
       setTimeout(() => {
         this.monsterState = "hit";
+        eventTrain.$emit(
+          "logIt",
+          `${this.monster.name} perd ${this.hero.atk}hp .`
+        );
+        this.monster.hp - this.hero.atk > 0
+          ? (this.monster.hp -= this.hero.atk)
+          : "";
         setTimeout(() => {
           this.monsterState = "neutral";
         }, 200);
@@ -188,18 +234,16 @@ export default {
         setTimeout(async () => {
           this.heroAttacking = false;
           this.spriteSelect = "Passif";
-          if (this.monster.hp - this.hero.atk > 0) {
-            this.monster.hp -= this.hero.atk;
-            await this.monsterAttack();
-          } else {
-            this.monsterDeath();
-          }
+          this.monster.hp - this.hero.atk > 0
+            ? await this.monsterAttack()
+            : this.monsterDeath();
           this.disabled = false;
         }, 300);
       }, 300);
     },
     monsterAttack() {
       return new Promise(resolve => {
+        eventTrain.$emit("logIt", `${this.monster.name} attaque !`);
         this.monsterState = "attacking";
         setTimeout(() => {
           this.heroAttacked = true;
@@ -211,10 +255,15 @@ export default {
             this.monsterState = "neutral";
             this.spriteSelect = "Passif";
             if (this.hero.hp - this.monster.atk > 0) {
+              eventTrain.$emit(
+                "logIt",
+                `${this.hero.name} perd ${this.monster.atk}hp .`
+              );
               this.hero.hp -= this.monster.atk;
             } else {
               this.hero.hp = 0;
               this.spriteSelect = "Downed";
+              eventTrain.$emit("logIt", `${this.hero.name} est K.O. ...`);
               setTimeout(() => {
                 this.alive2 = false;
               }, 500);
@@ -225,6 +274,7 @@ export default {
       });
     },
     monsterDeath() {
+      eventTrain.$emit("logIt", `${this.monster.name} est vaincu !`);
       this.monster.hp = 0;
       this.monsterState = "dead";
       setTimeout(() => {
@@ -233,12 +283,17 @@ export default {
           this.alive1b = false;
         }, 500);
       }, 1000);
+    },
+    devHeal() {
+      this.hero.hp = this.hero.hpMax;
+      this.hero.mp = this.hero.mpMax;
     }
   }
 };
 </script>
 
 <style lang="sass" scoped>
+@import "../animate.css"
 #fightScreen
   width: 100%
   height: 100%
@@ -260,13 +315,16 @@ export default {
   #displayLeft
     margin-bottom: 65px
   #actions
+    display: flex
     background-color: darkblue
-    color: white
-    text-align: center
     border: inset white 2px
     border-radius: 5px
-    margin-bottom: 10px
-    padding: 5px
+    margin-bottom: 8px
+    height: fit-content
+    .actionIcon
+      display: block
+    .actionIcon:hover
+      animation: pulse 0.5s infinite
 
 .animSpell
   position: absolute

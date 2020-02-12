@@ -39,7 +39,7 @@ export default [
     spellBook: [Spells[0], Spells[1], Spells[2]]
   },
   {
-    name: "Phœnixia",
+    name: "Phoenixia",
     class: "War2",
     hp: 150,
     hpMax: 150,

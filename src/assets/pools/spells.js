@@ -1,3 +1,5 @@
+import { eventTrain } from "../../main";
+
 export default [
   {
     type: "spell",
@@ -7,11 +9,13 @@ export default [
     effect: "Rend 15hp au lanceur.",
     self: true,
     icon: require("@/assets/img/sorts/Cure_Well.gif"),
+    log(cible) {
+      eventTrain.$emit("logIt", `${cible.name} récupère 15hp !`);
+    },
     anim(cible) {
       return new Promise(resolve => {
         setTimeout(() => {
-          console.log(cible);
-
+          //console.log(cible);
           resolve();
         }, 1000);
       });
@@ -25,11 +29,13 @@ export default [
     effect: "Crée une explosion qui inflige 30 points de dégâts.",
     self: false,
     icon: require("@/assets/img/sorts/Blast2.gif"),
+    log(cible) {
+      eventTrain.$emit("logIt", `${cible.name} perd 30hp !!`);
+    },
     anim(cible) {
       return new Promise(resolve => {
         setTimeout(() => {
-          console.log(cible);
-
+          //console.log(cible);
           resolve();
         }, 1000);
         // for (let i = 1; i <= 25; i++) {
@@ -50,11 +56,13 @@ export default [
       "Crée une stalactite qui tombe sur la cible et inflige 40 points de dégâts.",
     self: false,
     icon: require("@/assets/img/sorts/Spire.gif"),
+    log(cible) {
+      eventTrain.$emit("logIt", `${cible.name} perd 40hp !!!`);
+    },
     anim(cible) {
       return new Promise(resolve => {
         setTimeout(() => {
-          console.log(cible);
-
+          //console.log(cible);
           resolve();
         }, 1000);
         // for (let i = 1; i <= 30; i++) {

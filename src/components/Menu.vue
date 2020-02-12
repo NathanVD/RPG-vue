@@ -14,20 +14,19 @@
       </div>
       <hr />
       <p class="d-flex m-0" v-for="(spell, index) in spellBook" :key="index">
-        <abbr :title="spell.effect" class="noStyle">
-          <button
-            :class="
-              character.mp - spell.cost >= 0
-                ? 'noStyle'
-                : 'noStyle text-secondary'
-            "
-            @click="cast(spell)"
-            :disabled="character.mp - spell.cost < 0"
-          >
-            <img :src="spell.icon" alt="spell" />
-            {{ spell.name }}
-          </button>
-        </abbr>
+        <button
+          :class="
+            character.mp - spell.cost >= 0
+              ? 'noStyle'
+              : 'noStyle text-secondary'
+          "
+          :title="spell.effect"
+          @click="cast(spell)"
+          :disabled="character.mp - spell.cost < 0"
+        >
+          <img :src="spell.icon" alt="spell" />
+          {{ spell.name }}
+        </button>
         <span
           :class="
             character.mp - spell.cost >= 0 ? 'ml-auto' : 'ml-auto text-danger'
@@ -51,19 +50,16 @@
         />
       </div>
       <hr />
-      <abbr
+      <input
         v-for="(item, index) in inventory"
         :key="index"
         :title="item.effect"
-      >
-        <input
-          type="image"
-          class="item"
-          :src="item.sprite"
-          @click="use(item)"
-          alt="item"
-        />
-      </abbr>
+        type="image"
+        class="item"
+        :src="item.sprite"
+        @click="use(item)"
+        alt="item"
+      />
     </div>
   </div>
 </template>
