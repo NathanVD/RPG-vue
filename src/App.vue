@@ -22,9 +22,9 @@ export default {
   },
   data() {
     return {
-      selectedStage: 0,
+      selectedStage: 4,
       selectedHero: 5,
-      selectedMonster: 8
+      selectedMonster: 9
     };
   },
   computed: {

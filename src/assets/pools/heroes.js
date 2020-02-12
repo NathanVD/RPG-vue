@@ -27,7 +27,7 @@ export default [
     spellBook: [Spells[0], Spells[1], Spells[2]]
   },
   {
-    name: "Saturos",
+    name: "Salamandar",
     class: "War1",
     hp: 150,
     hpMax: 150,

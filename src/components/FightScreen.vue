@@ -1,19 +1,28 @@
 <template>
   <div id="fightScreen" :style="{ backgroundImage: `url(${stage})` }">
     <div id="left-window" class="window">
-      <StatsBox :character="Monster" />
+      <StatsBox v-if="alive1a" :character="Monster" />
 
-      <div id="displayLeft" class="display">
+      <div v-if="alive1b" id="displayLeft" class="display">
         <img :src="monster.sprite" :class="monsterClasses" />
-        <img id="anim" v-show="this.spellcast.state" :src="frame" />
+        <img
+          class="animSpell"
+          v-show="this.spellcast.target === 1"
+          :src="frame"
+        />
       </div>
     </div>
 
     <div id="right-window" class="window">
-      <StatsBox :character="Hero" />
+      <StatsBox v-if="alive2" :character="Hero" />
 
       <div id="displayRight" class="display">
         <img :src="heroSprite" :class="heroClasses" />
+        <img
+          class="animSpell"
+          v-show="this.spellcast.target === 2"
+          :src="frame"
+        />
       </div>
 
       <Menu
@@ -52,6 +61,7 @@
 <script>
 import StatsBox from "./StatsBox.vue";
 import Menu from "./Menu.vue";
+//import Anim from "./Spells.vue";
 
 export default {
   props: {
@@ -79,11 +89,15 @@ export default {
   components: {
     StatsBox,
     Menu
+    //Anim
   },
   data() {
     return {
       Hero: this.hero,
       Monster: this.monster,
+      alive1a: true,
+      alive1b: true,
+      alive2: true,
       heroAttacking: false,
       monsterState: "neutral", // "hit", "attacking", "dead"
       heroAttacked: false,
@@ -92,8 +106,8 @@ export default {
       disabled: false,
       spriteSelect: "Passif", // "Attack1", "Attack2", "Cast1", "Cast2", "Hit", "Downed"
       menuActive: 0,
-      spellcast: { state: false, spell: "" },
-      frame: require("@/assets/img/Psy_Seal.gif")
+      spellcast: { target: 0, spell: "" },
+      frame: require("@/assets/img/Psy_Seal.gif") //Placeholder
     };
   },
   computed: {
@@ -125,22 +139,29 @@ export default {
       this.menuActive = id;
       this.disabled = !this.disabled;
     },
-    async castSpell(spell) {
+    castSpell(spell) {
       this.hero.mp -= spell.cost;
-      this.spellcast.state = true;
-      this.spellcast.spell = spell.name;
       this.spriteSelect = "Cast1";
-      setTimeout(() => {
-        spell.cast(this.hero, this.frame);
-        this.spriteSelect = "Cast2";
-        setTimeout(() => {
-          this.monsterState = "hit";
-          setTimeout(() => {
-            this.monsterState = "neutral";
-            this.spriteSelect = "Passif";
-            this.spellcast.state = false;
-          }, 800);
-        }, 200);
+      this.spellcast.spell = spell.name;
+      setTimeout(async () => {
+        if (spell.self) {
+          this.spellcast.target = 2;
+          this.spriteSelect = "Cast2";
+          await spell.anim(this.hero);
+          if (this.hero.hp + spell.power <= this.hero.hpMax) {
+            this.hero.hp += spell.power;
+          } else {
+            this.hero.hp = this.hero.hpMax;
+          }
+        } else {
+          this.spellcast.target = 1;
+          this.spriteSelect = "Cast2";
+          await spell.anim(this.monster);
+          this.monster.hp -= spell.power;
+        }
+        this.spriteSelect = "Passif";
+        this.spellcast.target = 0;
+        this.monster.hp > 0 ? await this.monsterAttack() : this.monsterDeath();
       }, 200);
     },
     useItem(item) {
@@ -167,9 +188,8 @@ export default {
           this.spriteSelect = "Passif";
           if (this.monster.hp - this.hero.atk > 0) {
             this.monster.hp -= this.hero.atk;
-            //await this.monsterAttack();
+            await this.monsterAttack();
           } else {
-            this.monster.hp = 0;
             this.monsterDeath();
           }
           this.disabled = false;
@@ -189,10 +209,13 @@ export default {
             this.monsterState = "neutral";
             this.spriteSelect = "Passif";
             if (this.hero.hp - this.monster.atk > 0) {
-              //this.hero.hp -= this.monster.atk;
+              this.hero.hp -= this.monster.atk;
             } else {
               this.hero.hp = 0;
               this.spriteSelect = "Downed";
+              setTimeout(() => {
+                this.alive2 = false;
+              }, 500);
             }
             resolve();
           }, 300);
@@ -200,7 +223,14 @@ export default {
       });
     },
     monsterDeath() {
+      this.monster.hp = 0;
       this.monsterState = "dead";
+      setTimeout(() => {
+        this.alive1a = false;
+        setTimeout(() => {
+          this.alive1b = false;
+        }, 500);
+      }, 1000);
     }
   }
 };
@@ -211,39 +241,35 @@ export default {
   width: 100%
   height: 100%
   display: flex
+  .window
+    position: relative
+    color: white
+    display: flex
+    flex-flow: column
+    justify-content: flex-end
+    align-items: center
+    width: 50%
+  .display
+    display: flex
+    justify-content: center
+    height: fit-content
+    width: 250px
+    margin: 10px 0
+  #displayLeft
+    margin-bottom: 65px
+  #actions
+    background-color: darkblue
+    color: white
+    text-align: center
+    border: inset white 2px
+    border-radius: 5px
+    margin-bottom: 10px
+    padding: 5px
 
-.window
-  position: relative
-  color: white
-  display: flex
-  flex-flow: column
-  justify-content: flex-end
-  align-items: center
-  width: 50%
-
-.display
-  display: flex
-  justify-content: center
-  height: fit-content
-  width: 250px
-  margin: 10px 0
-
-#displayLeft
-  margin-bottom: 65px
-
-#actions
-  background-color: darkblue
-  color: white
-  text-align: center
-  border: inset white 2px
-  border-radius: 5px
-  margin-bottom: 10px
-  padding: 5px
-
-#anim
+.animSpell
   position: absolute
   z-index: 10
-  bottom: 5%
+  bottom: 15%
 
 .jump
   animation: jump 0.5s
