@@ -23,18 +23,13 @@ export default {
   data() {
     return {
       selectedStage: 4,
-      selectedHero: 5,
+      selectedHero: 4,
       selectedMonster: 9
     };
   },
   computed: {
     hero() {
-      let chosen = Heroes[this.selectedHero];
-      chosen.inventory = [];
-      for (let i = 0; i < 3; i++) {
-        chosen.inventory.push(Items[parseInt(Math.random() * Items.length)]);
-      }
-      return chosen;
+      return Heroes[this.selectedHero];
     },
     monster() {
       return Monsters[this.selectedMonster];
@@ -49,6 +44,16 @@ export default {
         return "run";
       }
     }
+  },
+  methods: {
+    mkInventory() {
+      for (let i = 0; i < 3; i++) {
+        this.hero.inventory.push(Items[parseInt(Math.random() * Items.length)]);
+      }
+    }
+  },
+  created: function() {
+    this.mkInventory();
   }
 };
 </script>

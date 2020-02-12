@@ -85,8 +85,8 @@ export default [
     class: "Monster",
     hp: 999999,
     hpMax: 999999,
-    atk: 5,
-    speed: 15,
+    atk: 1,
+    speed: 0,
     sprite: require("@/assets/img/monstres/Satrage.gif")
   }
 ];

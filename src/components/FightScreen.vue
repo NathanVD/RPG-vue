@@ -166,8 +166,10 @@ export default {
     },
     useItem(item) {
       this.spriteSelect = "Cast1";
+      this.hero.inventory.splice(this.hero.inventory.indexOf(item), 1);
       setTimeout(() => {
         this.spriteSelect = "Cast2";
+        item.use(this.hero);
         setTimeout(() => {
           this.spriteSelect = "Passif";
         }, 1000);
