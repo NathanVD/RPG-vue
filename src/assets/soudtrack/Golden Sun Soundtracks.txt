@@ -1,0 +1,97 @@
+﻿0 battle lobby 
+1 opening / credits 
+2 menu principal
+3 phare de vénus / mercure 
+4 jeu du plus-ou-moins contigo, jeu de dés dans une des tentes
+5 alhafra alhafra
+6 temple de kandor
+7 daila
+8 thème de la jungle 
+9 izumo en fête !
+10 les ruines d'izumo
+11 défaite de drakozor
+12 temple de kandor II 
+13 les tribus de gondowan
+14 at the ceremony 
+15 lemuria
+16 madra
+17 sur ces petites îles... 
+18 lycanthropes !
+19 yallam
+20 la chanson de yepp
+21 la chanson de yepp ii
+22 rochair
+23 rocheau
+24 dans les cavernes 
+25 cave
+26 mont gaia
+27 statue de gabomba
+28 phare de jupiter
+29 mont magma
+30 phare de mars
+31 tour de toundra
+32 marais de taopo
+33 ruines d'ankohl
+34 thème d'agatio, karst & alex
+35 djinn
+36 le diable rôde
+37 shaman village / loho
+38 les origines de cylia / le dernier phare
+39 danger droit devant !
+40 opening theme golden sun : the lost age
+41 worldmap theme ocean
+42 golden sun : the lost age worldmap theme i
+43 golden sun : the lost age worldmap theme ii
+44 golden sun : the lost age ending
+45 le rocher tombe dans les mines d'altin
+46 the colosso / route du courage
+47 battle theme i golden sun : the lost age
+48 battle theme ii
+49 briggs battle theme
+50 boss battle theme
+51 sea battle
+52 agatio & karstine battle theme
+53 boss battle theme ii
+54 final battle
+55 victory
+56 perdre un combat
+57 rencontre entre ivan et maître hamo
+58 salamandar & phoenixia theme
+59 thème de prox
+60 destruction du temple de sol
+61 "trois ans plus tard..."
+62 mer du temps
+63 golden sun ending credits
+64 password
+65 sentiment de défaite au phare de vénus
+66 prologue début du jeu
+67 le mont alpha et val ont disparu !
+68 "to be continued..."
+69 val / vault / altin ii
+70 village paisible
+71 la malédiction de bilibin & kolima
+72 palace theme palais d'hydros (lémuria)
+73 tret / pic altin inondé
+74 temple fushin, temple lama, xian
+75 kalay / quai de kalay / quai de tolbi
+76 épreuves du colysée
+77 dans les tunnels / encouragements au colysée
+78 tolbi festival
+79 dans le sanctuaire antique
+80 chant mystique contigo
+81 salle des étoiles élémentaires / sommets des phares
+82 tempête de val / pic altin
+83 golden sun caves theme
+84 dans les déserts
+85 imil & prox
+86 dans les plateaux
+87 cave d'altmiller, tunnel en ruine
+88 lord babi
+89 arrimage à tolbi
+90 golden sun worldmap
+91 phare de vénus ii
+92 golden sun battle theme
+93 salamandar & phoenixia battle theme au phare de mercure 
+94golden sun boss battle
+95salamandar & phoenixia battle theme au phare de vénus
+96la plus dure des batailles

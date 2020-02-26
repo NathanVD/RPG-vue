@@ -1,6 +1,6 @@
 <template>
-  <div id="log">
-    <p id="logText"></p>
+  <div id="log" class="pl-4">
+    <p id="logText" class="mb-3"></p>
   </div>
 </template>
 
@@ -21,15 +21,18 @@ export default {
 
 <style lang="sass" scoped>
 #log
-  margin: 2% 0
-  padding: 10px
+  margin: 2% auto
   background-color: darkblue
+  text-shadow: 2px 2px black
   border: 3px solid white
   height: 100px
   width: 1067px
   overflow-y: scroll
-  position: relative
-  left: -4px
   #logText
     color: white
+.heroName
+.monsterName
+.bossName
+  color: #C10E00
+.itemName
 </style>

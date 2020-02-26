@@ -17,8 +17,8 @@
         <button
           :class="
             character.mp - spell.cost >= 0
-              ? 'noStyle'
-              : 'noStyle text-secondary'
+              ? 'noStyle pointer'
+              : 'noStyle pointer text-secondary'
           "
           :title="spell.effect"
           @click="cast(spell)"
@@ -78,7 +78,7 @@ export default {
   },
   computed: {
     closeIco() {
-      return require("@/assets/img/lowercase-x.gif");
+      return require("@/assets/img/icons/lowercase-x.gif");
     },
     inventory() {
       return this.character.inventory;
@@ -108,7 +108,6 @@ export default {
   width: 150px
   height: 150px
   background-color: #00008b7c
-  color: white
   border: ridge white 3px
   border-radius: 5px
   position: absolute
@@ -128,6 +127,8 @@ export default {
     width: 30px
   .noStyle
     all: unset
+  .pointer
+    cursor: pointer
   hr
     margin: 0
     background: white

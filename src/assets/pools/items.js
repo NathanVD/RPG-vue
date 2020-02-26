@@ -35,10 +35,10 @@ export default [
     sprite: require("@/assets/img/items/Vial.gif"),
     use(user) {
       eventTrain.$emit("logIt", `${user.name} récupère 30mp.`);
-      if (user.mp + 30 > user.mpMax) {
+      if (user.mp + 20 > user.mpMax) {
         user.mp = user.mpMax;
       } else {
-        user.mp += 30;
+        user.mp += 20;
       }
     }
   }

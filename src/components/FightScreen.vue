@@ -33,49 +33,68 @@
         @useItem="useItem"
       />
 
-      <div id="actions" class="p-1">
-        <input
-          type="image"
-          :src="attackIcon"
-          value="1"
-          title="Attaque"
-          class="actionIcon"
-          @click="attack"
-          alt="attack"
-          :disabled="disabled"
-        />
-        <input
-          type="image"
-          :src="magicIcon"
-          value="2"
-          title="Magie"
-          class="actionIcon"
-          @click="toggleMenu(2)"
-          alt="magic"
-          :disabled="disabled"
-        />
-        <input
-          type="image"
-          :src="itemIcon"
-          value="3"
-          title="Objets"
-          class="actionIcon"
-          @click="toggleMenu(3)"
-          alt="items"
-          :disabled="disabled"
-        />
-        <input
-          type="image"
-          :src="devIcon"
-          value="4"
-          title="Dev"
-          class="actionIcon"
-          @click="devHeal"
-          alt="dev"
-          :disabled="disabled"
-        />
+      <div id="actions">
+        <div v-if="actions === 'combat'" class="actions p-1">
+          <input
+            type="image"
+            :src="attackIcon"
+            value="1"
+            title="Attaque"
+            :class="!disabled ? 'actionIcon' : 'disabled'"
+            @click="attack"
+            alt="attack"
+            :disabled="disabled"
+          />
+          <input
+            type="image"
+            :src="magicIcon"
+            value="2"
+            title="Magie"
+            :class="!disabled ? 'actionIcon' : 'disabled'"
+            @click="toggleMenu(2)"
+            alt="magic"
+            :disabled="disabled"
+          />
+          <input
+            type="image"
+            :src="itemIcon"
+            value="3"
+            title="Objets"
+            :class="!disabled ? 'actionIcon' : 'disabled'"
+            @click="toggleMenu(3)"
+            alt="items"
+            :disabled="disabled"
+          />
+          <input
+            type="image"
+            :src="devIcon"
+            value="4"
+            title="Dev"
+            :class="!disabled ? 'actionIcon' : 'disabled'"
+            @click="devHeal"
+            alt="dev"
+            :disabled="disabled"
+          />
+        </div>
+        <div
+          v-if="actions === 'continuer'"
+          class="actions align-items-center p-1"
+        >
+          <p class="m-0 mr-2">Continuer ?</p>
+          <input
+            type="image"
+            :src="yes"
+            title="Oui"
+            class="actionIcon"
+            @click="continuer"
+            alt="Oui"
+          />
+        </div>
       </div>
     </div>
+    <audio loop autoplay>
+      <source src="@/assets/soudtrack/soundtrack48.mp3" type="audio/mpeg" />
+    </audio>
   </div>
 </template>
 
@@ -120,16 +139,17 @@ export default {
       monsterState: "neutral", // "hit", "attacking", "dead"
       heroAttacked: false,
       monsterAttacked: false,
-      isOpen: false,
+      actions: "combat",
       disabled: false,
       spriteSelect: "Passif", // "Attack1", "Attack2", "Cast1", "Cast2", "Hit", "Downed"
       menuActive: 0,
       spellcast: { target: 0, spell: "" },
       frame: require("@/assets/img/Psy_Seal.gif"), //Placeholder
-      attackIcon: require("@/assets/img/Attack.gif"),
-      magicIcon: require("@/assets/img/Psynergy.gif"),
-      itemIcon: require("@/assets/img/Item.gif"),
-      devIcon: require("@/assets/img/Lucky_Medals.gif")
+      attackIcon: require("@/assets/img/icons/Attack.gif"),
+      magicIcon: require("@/assets/img/icons/Psynergy.gif"),
+      itemIcon: require("@/assets/img/icons/Item.gif"),
+      devIcon: require("@/assets/img/icons/Lucky_Medals.gif"),
+      yes: require("@/assets/img/icons/Yes.gif")
     };
   },
   computed: {
@@ -163,6 +183,7 @@ export default {
     },
     castSpell(spell) {
       eventTrain.$emit("logIt", `${this.hero.name} lance ${spell.name} !!!`);
+      this.disabled = true;
       this.hero.mp -= spell.cost;
       this.spriteSelect = "Cast1";
       this.spellcast.spell = spell.name;
@@ -193,6 +214,7 @@ export default {
         this.spriteSelect = "Passif";
         this.spellcast.target = 0;
         this.monster.hp > 0 ? await this.monsterAttack() : this.monsterDeath();
+        this.disabled = false;
       }, 200);
     },
     useItem(item) {
@@ -200,6 +222,7 @@ export default {
         "logIt",
         `${this.hero.name} utilise un(e) ${item.name}.`
       );
+      this.disabled = true;
       this.spriteSelect = "Cast1";
       this.hero.inventory.splice(this.hero.inventory.indexOf(item), 1);
       setTimeout(() => {
@@ -210,9 +233,11 @@ export default {
           this.monster.hp > 0
             ? await this.monsterAttack()
             : this.monsterDeath();
+          this.disabled = false;
         }, 1000);
       }, 200);
     },
+
     attack() {
       eventTrain.$emit("logIt", `${this.hero.name} attaque !`);
       this.disabled = true;
@@ -224,23 +249,32 @@ export default {
           "logIt",
           `${this.monster.name} perd ${this.hero.atk}hp .`
         );
-        this.monster.hp - this.hero.atk > 0
-          ? (this.monster.hp -= this.hero.atk)
-          : "";
+
         setTimeout(() => {
           this.monsterState = "neutral";
         }, 200);
+
         this.spriteSelect = "Attack2";
-        setTimeout(async () => {
+
+        setTimeout(() => {
           this.heroAttacking = false;
           this.spriteSelect = "Passif";
-          this.monster.hp - this.hero.atk > 0
-            ? await this.monsterAttack()
-            : this.monsterDeath();
-          this.disabled = false;
         }, 300);
+
+        if (this.monster.hp - this.hero.atk > 0) {
+          this.monster.hp -= this.hero.atk;
+          setTimeout(async () => {
+            await this.monsterAttack();
+          }, 300);
+        } else {
+          this.monster.hp = 0;
+          setTimeout(() => {
+            this.monsterDeath();
+          }, 300);
+        }
       }, 300);
     },
+
     monsterAttack() {
       return new Promise(resolve => {
         eventTrain.$emit("logIt", `${this.monster.name} attaque !`);
@@ -260,33 +294,47 @@ export default {
                 `${this.hero.name} perd ${this.monster.atk}hp .`
               );
               this.hero.hp -= this.monster.atk;
+              this.disabled = false;
             } else {
-              this.hero.hp = 0;
-              this.spriteSelect = "Downed";
-              eventTrain.$emit("logIt", `${this.hero.name} est K.O. ...`);
-              setTimeout(() => {
-                this.alive2 = false;
-              }, 500);
+              this.playerDeath();
             }
             resolve();
           }, 300);
         }, 300);
       });
     },
+
     monsterDeath() {
       eventTrain.$emit("logIt", `${this.monster.name} est vaincu !`);
-      this.monster.hp = 0;
       this.monsterState = "dead";
       setTimeout(() => {
         this.alive1a = false;
         setTimeout(() => {
           this.alive1b = false;
+          this.actions = "continuer";
         }, 500);
       }, 1000);
     },
+
+    playerDeath() {
+      eventTrain.$emit("logIt", `${this.hero.name} est K.O. ...`);
+      this.hero.hp = 0;
+      this.spriteSelect = "Downed";
+      setTimeout(() => {
+        this.disabled = false;
+        this.alive2 = false;
+        this.actions = "continuer";
+      }, 500);
+    },
+
     devHeal() {
       this.hero.hp = this.hero.hpMax;
       this.hero.mp = this.hero.mpMax;
+    },
+
+    continuer() {
+      eventTrain.$emit("changeRoom");
+      this.actions = "combat";
     }
   }
 };
@@ -300,11 +348,11 @@ export default {
   display: flex
   .window
     position: relative
-    color: white
     display: flex
     flex-flow: column
     justify-content: flex-end
     align-items: center
+    text-shadow: 2px 2px black
     width: 50%
   .display
     display: flex
@@ -314,17 +362,20 @@ export default {
     margin: 10px 0
   #displayLeft
     margin-bottom: 65px
-  #actions
+  .actions
     display: flex
     background-color: darkblue
     border: inset white 2px
     border-radius: 5px
-    margin-bottom: 8px
+    margin-bottom: 5px
     height: fit-content
     .actionIcon
       display: block
     .actionIcon:hover
       animation: pulse 0.5s infinite
+    .disabled
+      display: block
+      filter: grayscale(100%)
 
 .animSpell
   position: absolute

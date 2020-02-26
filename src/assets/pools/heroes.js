@@ -5,7 +5,7 @@ export default [
   {
     name: "Pavel",
     class: "Lord1",
-    hp: 60,
+    hp: 100,
     hpMax: 100,
     mp: 60,
     mpMax: 60,

@@ -50,17 +50,20 @@ export default {
     justify-content: space-around
     .value
       position: absolute
+      z-index: 2
       margin-right: auto
       margin-left: auto
-      top: 5%
       right: 0
       left: 20%
   progress[value]
     -webkit-appearance: none
+    height: 15px
   .healthBar[value]::-webkit-progress-value
     background-color: green
   .manaBar[value]::-webkit-progress-value
     background-color: dodgerblue
+    position: relative
+    left: -1px
   .blue
     color: dodgerblue
   .red
