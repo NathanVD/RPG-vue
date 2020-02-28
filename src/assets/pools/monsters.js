@@ -99,14 +99,14 @@ export default [
     speed: 15,
     sprite: require("@/assets/img/monstres/boss/Manticore.gif")
   }
-  // {
-  //   name: "Sparring Partner",
-  //   class: "Monster",
-  //   screen: "fight",
-  //   hp: 9999,
-  //   hpMax: 9999,
-  //   atk: 1,
-  //   speed: 0,
-  //   sprite: require("@/assets/img/monstres/Satrage.gif")
-  // }
 ];
+// {
+//   name: "Sparring Partner",
+//   class: "Monster",
+//   screen: "fight",
+//   hp: 9999,
+//   hpMax: 9999,
+//   atk: 1,
+//   speed: 0,
+//   sprite: require("@/assets/img/monstres/Satrage.gif")
+// }

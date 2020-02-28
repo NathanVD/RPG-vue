@@ -1,6 +1,7 @@
 <template>
   <div id="gameScreen">
-    <button v-if="!room.screen" @click="changeScreen('start')">Start</button>
+    <button v-if="!room.screen" @click="changeScreen('select')">Start</button>
+    <SelectionScreen v-if="room.screen === 'select'" />
     <StartScreen v-if="room.screen === 'start'" />
     <FightScreen
       v-if="room.screen === 'fight'"
@@ -23,6 +24,7 @@
 </template>
 
 <script>
+import SelectionScreen from "./SelectionScreen.vue";
 import StartScreen from "./StartScreen.vue";
 import FightScreen from "./FightScreen.vue";
 import ChestScreen from "./ChestScreen.vue";
@@ -34,6 +36,7 @@ import { eventTrain } from "../main";
 
 export default {
   components: {
+    SelectionScreen,
     StartScreen,
     FightScreen,
     ChestScreen,

@@ -153,7 +153,7 @@ export default {
       setTimeout(() => {
         eventTrain.$emit(
           "logIt",
-          `Le coffre contenait un(e) "${this.relic.name}" que vous équippez.`
+          `Le coffre contenait un(e) "${this.relic.name}" que vous equippez.`
         );
       }, 200);
       this.action = "continuer";
@@ -172,7 +172,6 @@ export default {
       eventTrain.$emit("changeRoom");
     }
   },
-
   mounted: function() {
     eventTrain.$emit("logIt", `Vous trouvez un coffre !`);
   }

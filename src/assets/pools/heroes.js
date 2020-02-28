@@ -12,19 +12,25 @@ export default [
     atk: 10,
     speed: 10,
     inventory: [],
-    spellBook: [Spells[0], Spells[1], Spells[2]]
+    spellBook: [Spells[0], Spells[1], Spells[2]],
+    mini1: require("@/assets/img/select/Felix.gif"),
+    mini2: require("@/assets/img/select/Felix_Walk.gif"),
+    portrait: require("@/assets/img/select/icons/Felix.gif")
   },
   {
     name: "Lina",
     class: "Lord2",
-    hp: 60,
+    hp: 100,
     hpMax: 100,
     mp: 60,
     mpMax: 60,
     atk: 10,
     speed: 10,
     inventory: [],
-    spellBook: [Spells[0], Spells[1], Spells[2]]
+    spellBook: [Spells[0], Spells[1], Spells[2]],
+    mini1: require("@/assets/img/select/Jenna.gif"),
+    mini2: require("@/assets/img/select/Jenna_Walk.gif"),
+    portrait: require("@/assets/img/select/icons/Jenna.gif")
   },
   {
     name: "Salamandar",
@@ -36,7 +42,10 @@ export default [
     atk: 15,
     speed: 5,
     inventory: [],
-    spellBook: [Spells[0], Spells[1], Spells[2]]
+    spellBook: [Spells[0], Spells[1], Spells[2]],
+    mini1: require("@/assets/img/select/Saturos.gif"),
+    mini2: require("@/assets/img/select/Saturos_Walk.gif"),
+    portrait: require("@/assets/img/select/icons/Saturos.gif")
   },
   {
     name: "Phoenixia",
@@ -48,7 +57,10 @@ export default [
     atk: 15,
     speed: 5,
     inventory: [],
-    spellBook: [Spells[0], Spells[1], Spells[2]]
+    spellBook: [Spells[0], Spells[1], Spells[2]],
+    mini1: require("@/assets/img/select/Menardi.gif"),
+    mini2: require("@/assets/img/select/Menardi_Walk.gif"),
+    portrait: require("@/assets/img/select/icons/Menardi.gif")
   },
   {
     name: "Ivan",
@@ -60,7 +72,10 @@ export default [
     atk: 5,
     speed: 15,
     inventory: [],
-    spellBook: [Spells[0], Spells[1], Spells[2]]
+    spellBook: [Spells[0], Spells[1], Spells[2]],
+    mini1: require("@/assets/img/select/Ivan.gif"),
+    mini2: require("@/assets/img/select/Ivan.gif"),
+    portrait: require("@/assets/img/select/icons/Ivan.gif")
   },
   {
     name: "Sofia",
@@ -72,6 +87,9 @@ export default [
     atk: 5,
     speed: 15,
     inventory: [],
-    spellBook: [Spells[0], Spells[1], Spells[2]]
+    spellBook: [Spells[0], Spells[1], Spells[2]],
+    mini1: require("@/assets/img/select/Mia.gif"),
+    mini2: require("@/assets/img/select/Mia_Walk.gif"),
+    portrait: require("@/assets/img/select/icons/Mia.gif")
   }
 ];

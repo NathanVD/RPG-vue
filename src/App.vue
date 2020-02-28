@@ -73,26 +73,21 @@ export default {
         this.relics.splice(pick, 1);
       }
     },
-
     pickRoom() {
       let pick;
       pick = parseInt(Math.random() * this.dungeon.length);
       pick = this.dungeon.splice(pick, 1);
-      console.log(pick);
       this.room = pick[0];
     }
-  },
-
-  created: function() {
-    this.mkInventory();
-    this.generateDungeon();
   },
 
   mounted: function() {
     eventTrain.$on("changeRoom", param => {
       this.room = { screen: "loading" };
       setTimeout(() => {
-        param === "start"
+        param === "select"
+          ? (this.room = { screen: "select" })
+          : param === "start"
           ? (this.room = { screen: "start" })
           : param === "gameover"
           ? (this.room = { screen: "gameover" })
@@ -101,16 +96,41 @@ export default {
           : (this.room = { screen: "end" });
       }, 100);
     });
+    eventTrain.$on("selectHero", name => {
+      switch (name) {
+        case "Sofia":
+          this.selectedHero = 5;
+          break;
+        case "Ivan":
+          this.selectedHero = 4;
+          break;
+        case "Phoenixia":
+          this.selectedHero = 3;
+          break;
+        case "Salamandar":
+          this.selectedHero = 2;
+          break;
+        case "Lina":
+          this.selectedHero = 1;
+          break;
+        case "Pavel":
+        default:
+          this.selectedHero = 0;
+          break;
+      }
+      this.mkInventory();
+      this.generateDungeon();
+    });
   }
 };
 </script>
 
 <style lang="sass">
-@import "../node_modules/bootstrap/scss/bootstrap.scss"
 @import "./assets/font/stylesheet.css"
 @import "./animate.css"
 
-body
+#app
+  height: 100vh
   background: #979797
   font-family: 'golden_sun', Verdana, Arial, Helvetica, sans-serif
   color: white

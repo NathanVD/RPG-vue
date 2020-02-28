@@ -176,6 +176,12 @@ export default {
       }
     }
   },
+  mounted: function() {
+    eventTrain.$emit(
+      "logIt",
+      `Vous rencontrez un(e) ${this.monster.name}. Preparez vous a vous battre !`
+    );
+  },
   methods: {
     toggleMenu(id) {
       this.menuActive = id;
