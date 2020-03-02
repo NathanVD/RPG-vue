@@ -7,10 +7,11 @@
     <div class="row pb-5 animated zoomInUp">
       <div class="col d-flex flex-column align-items-center mx-5">
         <h5 class="name text-center mb-4">{{ hero1.name }}</h5>
-        <img
+        <input
+          ref="input"
+          type="image"
           :src="hover === 1 ? hero1.mini2 : hero1.mini1"
-          class=""
-          alt="mini Pavel"
+          :alt="'mini-' + hero1.name"
           @mouseenter="hover = 1"
           @mouseleave="hover = 0"
           @click="click === 1 ? (click = 0) : (click = 1)"
@@ -18,10 +19,11 @@
       </div>
       <div class="col d-flex flex-column align-items-center mx-5">
         <h5 class="name text-center mb-4">{{ hero2.name }}</h5>
-        <img
+        <input
+          ref="input"
+          type="image"
           :src="hover === 2 ? hero2.mini2 : hero2.mini1"
-          class=""
-          alt="mini Lina"
+          :alt="'mini-' + hero1.name"
           @mouseenter="hover = 2"
           @mouseleave="hover = 0"
           @click="click === 2 ? (click = 0) : (click = 2)"
@@ -58,6 +60,11 @@ export default {
       hover: 0,
       click: 0
     };
+  },
+  methods: {
+    reset() {
+      this.click = 0;
+    }
   }
 };
 </script>
@@ -78,8 +85,10 @@ export default {
     padding: 5px 10px
   .left
     top: 25%
-    left: 10%
+    left: 12%
   .right
     top: 25%
-    right: 10%
+    right: 12%
+  input:focus
+    outline: none
 </style>

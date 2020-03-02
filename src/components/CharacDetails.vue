@@ -1,6 +1,5 @@
 <template>
   <transition
-    appear
     mode="in-out"
     enter-active-class="animated zoomIn faster"
     leave-active-class="animated zoomOut faster"
@@ -12,16 +11,7 @@
         :alt="hero.name + '-portrait'"
       />
       <div class="details">
-        <div
-          v-for="(value, name) in hero"
-          v-if="
-            name === 'hp' ||
-              name === 'mp' ||
-              name === 'atk' ||
-              name === 'speed' ||
-              name === 'spellBook'
-          "
-        >
+        <div v-for="(value, name) in hero" :key="name">
           <p
             v-if="
               name === 'hp' ||
@@ -29,7 +19,6 @@
                 name === 'atk' ||
                 name === 'speed'
             "
-            :key="name"
             class="text-capitalize m-0"
           >
             {{ name }}: {{ value }}

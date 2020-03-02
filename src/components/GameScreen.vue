@@ -1,8 +1,8 @@
 <template>
   <div id="gameScreen">
-    <button v-if="!room.screen" @click="changeScreen('select')">Start</button>
-    <SelectionScreen v-if="room.screen === 'select'" />
+    <button v-if="!room.screen" @click="changeScreen('start')">Start</button>
     <StartScreen v-if="room.screen === 'start'" />
+    <SelectionScreen v-if="room.screen === 'select'" />
     <FightScreen
       v-if="room.screen === 'fight'"
       :stage="stage"
@@ -20,12 +20,12 @@
     <EndScreen v-if="room.screen === 'end'" />
     <GameOverScreen v-if="room.screen === 'gameover'" />
   </div>
-  <!-- room.screen -> start, fight, chest, loading, end, gameover -->
+  <!-- room.screen -> start, select, fight, chest, loading, end, gameover -->
 </template>
 
 <script>
-import SelectionScreen from "./SelectionScreen.vue";
 import StartScreen from "./StartScreen.vue";
+import SelectionScreen from "./SelectionScreen.vue";
 import FightScreen from "./FightScreen.vue";
 import ChestScreen from "./ChestScreen.vue";
 import LoadingScreen from "./LoadingScreen.vue";
@@ -36,8 +36,8 @@ import { eventTrain } from "../main";
 
 export default {
   components: {
-    SelectionScreen,
     StartScreen,
+    SelectionScreen,
     FightScreen,
     ChestScreen,
     LoadingScreen,

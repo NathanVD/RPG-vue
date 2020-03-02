@@ -215,12 +215,13 @@ export default {
           }, 600);
           spell.log(this.monster.name);
           await spell.anim(this.monster);
-          this.monster.hp -= spell.power;
+          this.monster.hp - spell.power > 0
+            ? (this.monster.hp -= spell.power)
+            : (this.monster.hp = 0);
         }
         this.spriteSelect = "Passif";
         this.spellcast.target = 0;
-        this.monster.hp > 0 ? await this.monsterAttack() : this.monsterDeath();
-        this.disabled = false;
+        this.monster.hp === 0 ? this.monsterDeath() : this.monsterAttack();
       }, 200);
     },
     useItem(item) {
@@ -234,11 +235,9 @@ export default {
       setTimeout(() => {
         this.spriteSelect = "Cast2";
         item.use(this.hero);
-        setTimeout(async () => {
+        setTimeout(() => {
           this.spriteSelect = "Passif";
-          this.monster.hp > 0
-            ? await this.monsterAttack()
-            : this.monsterDeath();
+          this.monster.hp > 0 ? this.monsterAttack() : this.monsterDeath();
           this.disabled = false;
         }, 1000);
       }, 200);
@@ -250,64 +249,50 @@ export default {
       this.heroAttacking = true;
       this.spriteSelect = "Attack1";
       setTimeout(() => {
+        this.spriteSelect = "Attack2";
         this.monsterState = "hit";
         eventTrain.$emit(
           "logIt",
           `${this.monster.name} perd ${this.hero.atk}hp .`
         );
-
+        this.monster.hp - this.hero.atk > 0
+          ? (this.monster.hp -= this.hero.atk)
+          : (this.monster.hp = 0);
         setTimeout(() => {
           this.monsterState = "neutral";
-        }, 200);
-
-        this.spriteSelect = "Attack2";
-
-        setTimeout(() => {
-          this.heroAttacking = false;
-          this.spriteSelect = "Passif";
-        }, 300);
-
-        if (this.monster.hp - this.hero.atk > 0) {
-          this.monster.hp -= this.hero.atk;
-          setTimeout(async () => {
-            await this.monsterAttack();
-          }, 300);
-        } else {
-          this.monster.hp = 0;
           setTimeout(() => {
-            this.monsterDeath();
-          }, 300);
-        }
+            this.heroAttacking = false;
+            this.spriteSelect = "Passif";
+            this.monster.hp === 0 ? this.monsterDeath() : this.monsterAttack();
+          }, 100);
+        }, 200);
       }, 300);
     },
 
     monsterAttack() {
-      return new Promise(resolve => {
-        eventTrain.$emit("logIt", `${this.monster.name} attaque !`);
-        this.monsterState = "attacking";
+      eventTrain.$emit("logIt", `${this.monster.name} attaque !`);
+      this.monsterState = "attacking";
+      setTimeout(() => {
+        this.heroAttacked = true;
+        this.spriteSelect = "Hit";
         setTimeout(() => {
-          this.heroAttacked = true;
-          this.spriteSelect = "Hit";
-          setTimeout(() => {
-            this.heroAttacked = false;
-          }, 100);
-          setTimeout(() => {
-            this.monsterState = "neutral";
-            this.spriteSelect = "Passif";
-            if (this.hero.hp - this.monster.atk > 0) {
-              eventTrain.$emit(
-                "logIt",
-                `${this.hero.name} perd ${this.monster.atk}hp .`
-              );
-              this.hero.hp -= this.monster.atk;
-              this.disabled = false;
-            } else {
-              this.playerDeath();
-            }
-            resolve();
-          }, 300);
+          this.heroAttacked = false;
+        }, 100);
+        setTimeout(() => {
+          this.monsterState = "neutral";
+          this.spriteSelect = "Passif";
+          if (this.hero.hp - this.monster.atk > 0) {
+            eventTrain.$emit(
+              "logIt",
+              `${this.hero.name} perd ${this.monster.atk}hp .`
+            );
+            this.hero.hp -= this.monster.atk;
+            this.disabled = false;
+          } else {
+            this.playerDeath();
+          }
         }, 300);
-      });
+      }, 300);
     },
 
     monsterDeath() {

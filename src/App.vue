@@ -55,10 +55,10 @@ export default {
   },
   methods: {
     mkInventory() {
-      // for (let i = 0; i < 3; i++) {
-      //   this.hero.inventory.push(Items[parseInt(Math.random() * Items.length)]);
-      // }
-      this.hero.inventory = [Items[0], Items[1], Items[2]]; //Testing
+      for (let i = 0; i < 3; i++) {
+        this.hero.inventory.push(Items[parseInt(Math.random() * Items.length)]);
+      }
+      // this.hero.inventory = [Items[0], Items[1], Items[2]]; //Testing
     },
     generateDungeon() {
       let pick;

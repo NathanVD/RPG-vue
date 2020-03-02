@@ -16,6 +16,7 @@
           data-target="#classesCarousel"
           data-slide-to="0"
           class="indic mx-1 active"
+          @click="resetDetails"
         />
         <img
           :src="indic2"
@@ -23,6 +24,7 @@
           data-target="#classesCarousel"
           data-slide-to="1"
           class="indic mx-1"
+          @click="resetDetails"
         />
         <img
           :src="indic3"
@@ -30,11 +32,13 @@
           data-target="#classesCarousel"
           data-slide-to="2"
           class="indic mx-1"
+          @click="resetDetails"
         />
       </ul>
       <div class="carousel-inner h-100">
         <div class="carousel-item bg1 w-100 h-100 active">
           <ClassSlide
+            ref="slide1"
             classe="Seigneurs"
             :hero1="Heroes[0]"
             :hero2="Heroes[1]"
@@ -42,29 +46,37 @@
         </div>
         <div class="carousel-item bg2 w-100 h-100">
           <ClassSlide
+            ref="slide2"
             classe="Guerriers"
             :hero1="Heroes[2]"
             :hero2="Heroes[3]"
           />
         </div>
         <div class="carousel-item bg3 w-100 h-100">
-          <ClassSlide classe="Mages" :hero1="Heroes[4]" :hero2="Heroes[5]" />
+          <ClassSlide
+            ref="slide3"
+            classe="Mages"
+            :hero1="Heroes[4]"
+            :hero2="Heroes[5]"
+          />
         </div>
       </div>
       <a
-        class="carousel-control-prev"
+        class="carousel-control-prev h-100"
         href="#classesCarousel"
         role="button"
         data-slide="prev"
+        @click="resetDetails"
       >
         <img class="arrowLeft" :src="arrow" alt="Previous" />
         <span class="sr-only">Previous</span>
       </a>
       <a
-        class="carousel-control-next"
+        class="carousel-control-next h-100"
         href="#classesCarousel"
         role="button"
         data-slide="next"
+        @click="resetDetails"
       >
         <img class="arrowRight" :src="arrow" alt="Next" />
         <span class="sr-only">Next</span>
@@ -89,6 +101,13 @@ export default {
       indic2: require("@/assets/img/icons/Mars_Star.gif"),
       indic3: require("@/assets/img/icons/Jupiter_Star.gif")
     };
+  },
+  methods: {
+    resetDetails() {
+      this.$refs.slide1.reset();
+      this.$refs.slide2.reset();
+      this.$refs.slide3.reset();
+    }
   }
 };
 </script>
@@ -110,7 +129,10 @@ export default {
   .arrowRight
     transform: rotate(45deg)
   .carousel-control-prev, .carousel-control-next
-    top: 90%
+    width: 10%
+  .arrowLeft, .arrowRight
+    position: absolute
+    bottom: 10%
   .indic
     cursor: pointer
     opacity: .5

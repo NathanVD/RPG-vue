@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     start() {
-      eventTrain.$emit("changeRoom");
+      eventTrain.$emit("changeRoom", "select");
     },
     startBtn() {
       setTimeout(() => {
