@@ -1,7 +1,17 @@
 export default [
   {
+    name: "Mimique",
+    class: "Monster",
+    screen: "chest",
+    hp: 50,
+    hpMax: 50,
+    atk: 20,
+    speed: 20,
+    sprite: require("@/assets/img/monstres/Mimic.gif")
+  },
+  {
     name: "Epee de vitesse",
-    class: "relique",
+    class: "Relic",
     screen: "chest",
     bonusHp: 0,
     bonusMp: 0,
@@ -15,7 +25,7 @@ export default [
   },
   {
     name: "Bottes de celerite",
-    class: "relique",
+    class: "Relic",
     screen: "chest",
     bonusHp: 10,
     bonusMp: 5,
@@ -32,7 +42,7 @@ export default [
   },
   {
     name: "Armure doree",
-    class: "relique",
+    class: "Relic",
     screen: "chest",
     bonusHp: 20,
     bonusMp: 10,
@@ -48,7 +58,7 @@ export default [
   },
   {
     name: "Anneau de perfection",
-    class: "relique",
+    class: "Relic",
     screen: "chest",
     bonusHp: 10,
     bonusMp: 5,
@@ -66,7 +76,7 @@ export default [
   },
   {
     name: "Casque a cornes",
-    class: "relique",
+    class: "Relic",
     screen: "chest",
     bonusHp: 15,
     bonusMp: 0,

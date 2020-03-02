@@ -91,9 +91,17 @@ export default {
           ? (this.room = { screen: "start" })
           : param === "gameover"
           ? (this.room = { screen: "gameover" })
+          : param === "mimic"
+          ? (this.room = this.relics[0])
           : this.dungeon.length > 0
           ? this.pickRoom()
           : (this.room = { screen: "end" });
+      }, 100);
+    });
+    eventTrain.$on("mimic", param => {
+      this.room = { screen: "loading" };
+      setTimeout(() => {
+        this.room = param;
       }, 100);
     });
     eventTrain.$on("selectHero", name => {

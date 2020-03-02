@@ -2,7 +2,7 @@
   <div id="chestScreen" :style="{ backgroundImage: `url(${stage})` }">
     <div
       class="position-relative"
-      v-if="isOpen"
+      v-if="isOpen && relic.class !== 'Monster'"
       @mouseover="showStats = true"
       @mouseleave="showStats = false"
     >
@@ -128,6 +128,7 @@ export default {
       action: "ouvrir",
       disabled: false,
       isOpen: false,
+      isMimic: false,
       showStats: false,
       yes: require("@/assets/img/icons/Yes.gif"),
       no: require("@/assets/img/icons/No.gif"),
@@ -141,6 +142,8 @@ export default {
       let sprite;
       this.isOpen
         ? (sprite = require("@/assets/img/relics/openChest.png"))
+        : this.isMimic
+        ? (sprite = require("@/assets/img/relics/mimic.gif"))
         : (sprite = require("@/assets/img/relics/chest.png"));
       return sprite;
     }
@@ -151,12 +154,27 @@ export default {
       this.isOpen = true;
       eventTrain.$emit("logIt", `Vous ouvrez le coffre.`);
       setTimeout(() => {
-        eventTrain.$emit(
-          "logIt",
-          `Le coffre contenait un(e) "${this.relic.name}" que vous equippez.`
-        );
+        if (this.relic.class === "Monster") {
+          this.isOpen = false;
+          this.isMimic = true;
+          eventTrain.$emit(
+            "logIt",
+            `Le coffre était en fait une "${this.relic.name}" !!!`
+          );
+          setTimeout(() => {
+            this.relic.screen = "fight";
+            eventTrain.$emit("mimic", this.relic);
+          }, 600);
+        } else {
+          setTimeout(() => {
+            eventTrain.$emit(
+              "logIt",
+              `Le coffre contenait un(e) "${this.relic.name}" que vous equippez.`
+            );
+          }, 200);
+          this.action = "continuer";
+        }
       }, 200);
-      this.action = "continuer";
     },
 
     ignore() {
