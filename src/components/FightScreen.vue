@@ -92,8 +92,11 @@
         </div>
       </div>
     </div>
-    <audio loop autoplay>
-      <source src="@/assets/soudtrack/soundtrack48.mp3" type="audio/mpeg" />
+    <audio autoplay v-if="this.Monster.class === 'Monster'" @ended="loop">
+      <source src="@/assets/soudtrack/Battle1.mp3" type="audio/mpeg" />
+    </audio>
+    <audio loop autoplay v-else-if="this.Monster.class === 'Boss'">
+      <source src="@/assets/soudtrack/Boss1.mp3" type="audio/mpeg" />
     </audio>
   </div>
 </template>
@@ -177,12 +180,21 @@ export default {
     }
   },
   mounted: function() {
-    eventTrain.$emit(
-      "logIt",
-      `Vous rencontrez un(e) ${this.monster.name}. Preparez vous a vous battre !`
-    );
+    this.monster.class === "Boss"
+      ? eventTrain.$emit(
+          "logIt",
+          `Vous appercevez la fin de la zone, cependant un(e) <span class="text-danger">${this.monster.name}</span> se dresse sur votre chemin. Preparez vous a vous battre !`
+        )
+      : eventTrain.$emit(
+          "logIt",
+          `Vous rencontrez un(e) ${this.monster.name}. Preparez vous a vous battre !`
+        );
   },
   methods: {
+    loop: e => {
+      event.target.currentTime = 1.85;
+      event.target.play();
+    },
     toggleMenu(id) {
       this.menuActive = id;
       this.disabled = !this.disabled;
@@ -302,6 +314,13 @@ export default {
         this.alive1a = false;
         setTimeout(() => {
           this.alive1b = false;
+          if (this.monster.class === "Boss") {
+            eventTrain.$emit("bossDeath");
+            eventTrain.$emit(
+              "logIt",
+              `Vous avez defait le boss de cette zone !`
+            );
+          }
           this.actions = "continuer";
         }, 500);
       }, 1000);
@@ -324,7 +343,9 @@ export default {
     },
 
     continuer() {
-      eventTrain.$emit("changeRoom");
+      this.alive2
+        ? eventTrain.$emit("changeRoom")
+        : eventTrain.$emit("changeRoom", "gameover");
       this.actions = "combat";
     }
   }

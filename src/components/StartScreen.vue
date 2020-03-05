@@ -13,7 +13,7 @@
     </div>
 
     <audio loop autoplay>
-      <source src="@/assets/soudtrack/soundtrack40.mp3" type="audio/mpeg" />
+      <source src="@/assets/soudtrack/Opening.mp3" type="audio/mpeg" />
     </audio>
   </div>
 </template>
@@ -24,7 +24,6 @@ import { eventTrain } from "../main";
 export default {
   data() {
     return {
-      bg: require("@/assets/img/backgrounds/Opening.gif"),
       go: false
     };
   },
@@ -78,16 +77,16 @@ export default {
 
 @keyframes intro
   0%
-    background-image: url("../assets/img/backgrounds/Opening.gif")
+    background-image: url("../assets/img/backgrounds/start-end/Opening.gif")
     background-position: bottom
   80%
-    background-image: url("../assets/img/backgrounds/Opening.gif")
+    background-image: url("../assets/img/backgrounds/start-end/Opening.gif")
     background-position: top
   81%
     background: black
   82%
     background-position: 0 60%
   100%
-    background: url("../assets/img/backgrounds/Opening.gif")
+    background: url("../assets/img/backgrounds/start-end/Opening.gif")
     background-position: 0 60%
 </style>

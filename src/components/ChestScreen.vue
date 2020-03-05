@@ -62,7 +62,7 @@
     </div>
     <img :src="chest" class="m-2" alt="Coffre" />
     <div class="actions">
-      <p v-if="action === 'ouvrir'">Ouvrir le coffre ?</p>
+      <p v-if="action === 'ouvrir'" class="mr-2">Ouvrir le coffre ?</p>
       <div class="icones">
         <input
           v-if="action === 'ouvrir'"
@@ -79,7 +79,7 @@
           type="image"
           :src="no"
           title="Non"
-          :class="!disabled ? 'actionIcon ml-1' : 'disabled ml-1'"
+          :class="!disabled ? 'actionIcon' : 'disabled'"
           @click="ignore"
           alt="Non"
           :disabled="disabled"
@@ -97,7 +97,7 @@
       </div>
     </div>
     <audio loop autoplay>
-      <source src="@/assets/soudtrack/soundtrack42.mp3" type="audio/mpeg" />
+      <source src="@/assets/soudtrack/WorldMap1.mp3" type="audio/mpeg" />
     </audio>
   </div>
 </template>
@@ -230,7 +230,6 @@ p
     width: 175px
   .actions
     display: flex
-    flex-flow: column
     align-items: center
     background-color: darkblue
     border: inset white 2px

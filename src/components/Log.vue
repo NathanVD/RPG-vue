@@ -28,11 +28,4 @@ export default {
   height: 100px
   width: 1067px
   overflow-y: scroll
-  #logText
-    color: white
-.heroName
-.monsterName
-.bossName
-  color: #C10E00
-.itemName
 </style>

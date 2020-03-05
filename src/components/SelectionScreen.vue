@@ -82,6 +82,9 @@
         <span class="sr-only">Next</span>
       </a>
     </div>
+    <audio loop autoplay>
+      <source src="@/assets/soudtrack/Select.mp3" type="audio/mpeg" />
+    </audio>
   </div>
 </template>
 
@@ -140,9 +143,9 @@ export default {
     &.active
       opacity: 1
   .bg1
-    background: url(../assets/img/backgrounds/Mars_Lighthouse_Aerie.gif)
+    background: url(../assets/img/backgrounds/character_select/Mars_Lighthouse_Aerie.gif)
   .bg2
-    background: url(../assets/img/backgrounds/Magma_Rock2.png)
+    background: url(../assets/img/backgrounds/character_select/Magma_Rock2.png)
   .bg3
-    background: url(../assets/img/backgrounds/Airs_Rock_Inside.gif)
+    background: url(../assets/img/backgrounds/character_select/Airs_Rock_Inside.gif)
 </style>

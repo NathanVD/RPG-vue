@@ -1,9 +1,11 @@
 export default [
-  require("@/assets/img/backgrounds/World_Map.gif"),
-  require("@/assets/img/backgrounds/Cliffs.gif"),
-  require("@/assets/img/backgrounds/Cave.gif"),
-  require("@/assets/img/backgrounds/Cave2.gif"),
-  require("@/assets/img/backgrounds/gs1/Colosso.gif"), //Arène
-  require("@/assets/img/backgrounds/Iris.gif"), //Victory
-  require("@/assets/img/backgrounds/Eclipse.gif") //Game Over
+  require("@/assets/img/backgrounds/Plains1.gif"), //plains
+  require("@/assets/img/backgrounds/Plains2.gif"), //plains
+  require("@/assets/img/backgrounds/Forest1.gif"), //forest
+  require("@/assets/img/backgrounds/Forest2.gif"), //forest
+  require("@/assets/img/backgrounds/Desert1.gif"), //desert
+  require("@/assets/img/backgrounds/Desert2.gif"), //desert
+  require("@/assets/img/backgrounds/Caves1.gif"), //cave
+  require("@/assets/img/backgrounds/Caves2.gif") //cave
+  //require("@/assets/img/backgrounds/gs1/Colosso.gif") //Arène
 ];

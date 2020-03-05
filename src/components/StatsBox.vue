@@ -1,5 +1,8 @@
 <template>
   <div id="statsBox">
+    <span v-if="this.character.class === 'Boss'" class="h6 text-danger">
+      <strong>☠</strong>
+    </span>
     {{ this.character.name }} <br />
     <div class="bars">
       <span>Hp</span>
